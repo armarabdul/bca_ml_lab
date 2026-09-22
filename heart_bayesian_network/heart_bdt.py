@@ -1,9 +1,6 @@
 import pandas as pd
-
 from pgmpy.models import DiscreteBayesianNetwork
-from pgmpy.estimators import MaximumLikelihoodEstimator
 from pgmpy.inference import VariableElimination
-
 
 # 1. Load dataset
 data = pd.read_csv("heart.csv")
@@ -31,8 +28,8 @@ model = DiscreteBayesianNetwork([
     ("thalach", "target")
 ])
 
-# 5. Learn probabilities from the data
-model.fit(data, estimator=MaximumLikelihoodEstimator)
+# 5. Learn probabilities (default is Maximum Likelihood Estimation)
+model.fit(data)
 
 # 6. Create inference engine
 inference = VariableElimination(model)
@@ -51,7 +48,6 @@ result = inference.query(
 print(result)
 
 print("\nDiagnosis:")
-
 if result.values[1] > result.values[0]:
     print("Heart Disease")
 else:
